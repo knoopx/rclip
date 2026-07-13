@@ -45,6 +45,11 @@ dependencies = [
     "rawpy>=0.26.1,<0.27",
 ]
 
+[project.optional-dependencies]
+cuda = [
+    "onnxruntime-gpu>=1.24.4,<2 ; sys_platform == 'linux'",
+]
+
 [project.urls]
 Repository = "https://github.com/yurijmikhalevich/rclip"
 

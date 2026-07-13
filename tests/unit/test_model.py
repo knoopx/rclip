@@ -135,7 +135,9 @@ def test_load_onnx_session_sets_explicit_thread_count(monkeypatch: pytest.Monkey
 
   assert isinstance(session, FakeInferenceSession)
   assert session.path == "/models/textual.onnx"
-  assert session.providers == ["CPUExecutionProvider"]
+  # On Linux, CUDAExecutionProvider is tried first with CPU as fallback
+  expected_providers = ["CUDAExecutionProvider", "CPUExecutionProvider"] if sys.platform.startswith("linux") else ["CPUExecutionProvider"]
+  assert session.providers == expected_providers
   assert session.sess_options is not None
   assert session.sess_options.intra_op_num_threads == 3
 
